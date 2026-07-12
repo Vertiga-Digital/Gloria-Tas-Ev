@@ -465,6 +465,21 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 100% { transform: scale(1.05); opacity: 1; } }
+
+        /* MASAÜSTÜ/TABLET İÇİN MODAL OPTİMİZASYONU */
+        @media (min-width: 768px) {
+            .modal-overlay {
+                align-items: center;
+            }
+            .modal-content {
+                max-width: 480px;
+                margin: 0 auto;
+                border-radius: 24px;
+            }
+            .modal-img-container {
+                height: clamp(280px, 35vh, 380px);
+            }
+        }
     </style>
 </head>
 <body>

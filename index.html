@@ -213,7 +213,7 @@
 
             
             <div style="margin-top: 4rem;">
-                <a href="menu.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                <a href="javascript:void(0)" onclick="openMenuChoice()" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
                     <i class="fa-solid fa-book-open"></i> Tüm Menüyü İncele
                 </a>
             </div>
@@ -486,5 +486,20 @@
             <i class="fa-brands fa-whatsapp"></i>
         </a>
     </div>
+    <!-- Menu Choice Modal -->
+    <div class="menu-choice-overlay" id="menuChoiceModal">
+        <div class="menu-choice-content">
+            <button class="menu-choice-close" onclick="closeMenuChoice()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="menu-choice-title">Menü Seçimi</h3>
+            <p class="menu-choice-desc">Hangi menü görünümünü tercih edersiniz?</p>
+            <a href="menu-modern.html" onclick="localStorage.setItem('menuLang', 'tr');" class="menu-choice-btn modern"><i class="fa-solid fa-mobile-screen"></i> Modern QR Menü</a>
+            <a href="menu.html" class="menu-choice-btn classic"><i class="fa-solid fa-book-open"></i> Klasik Menü</a>
+        </div>
+    </div>
+    <script>
+        function openMenuChoice() { document.getElementById('menuChoiceModal').classList.add('active'); }
+        function closeMenuChoice() { document.getElementById('menuChoiceModal').classList.remove('active'); }
+    </script>
+
 </body>
 </html>

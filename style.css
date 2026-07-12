@@ -456,7 +456,7 @@
         /* Kapsamlı (QR) Menü Stilleri */
         .full-menu-container {
             max-width: 800px;
-            margin: 5rem auto 0;
+            margin: 5rem auto 4rem; /* Alta boşluk eklendi */
             text-align: left;
             background-color: var(--color-cream-bg);
             padding: 3rem;

@@ -393,54 +393,11 @@
             text-align: center;
         }
 
-        .btn-waiter {
-            display: block;
-            width: 100%;
-            background: var(--color-dark-green);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 12px;
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(74, 93, 58, 0.3);
-            transition: var(--transition);
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-waiter:active {
-            transform: scale(0.98);
-        }
-
         .back-link {
             color: rgba(245, 237, 226, 0.5);
             text-decoration: none;
             font-size: 0.9rem;
             transition: var(--transition);
-        }
-
-        /* Toast Mesajı */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--color-warm-amber);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2000;
-            pointer-events: none;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
         }
         
         .no-results {
@@ -516,9 +473,6 @@
 
     <!-- ALT AKSİYONLAR -->
     <div class="bottom-actions">
-        <button class="btn-waiter" onclick="callWaiter()">
-            <i class="fa-solid fa-bell"></i> Garson Çağır
-        </button>
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön</a>
     </div>
 
@@ -540,10 +494,6 @@
             </div>
         </div>
     </div>
-
-    <!-- TOAST BİLDİRİMİ -->
-    <div class="toast" id="toastMessage">Masaya servis personeli çağrıldı!</div>
-
 
     <!-- ==========================================================================
          JAVASCRIPT
@@ -738,10 +688,8 @@
             // Placeholder güncelleme
             document.getElementById('searchInput').placeholder = lang === 'tr' ? "Yemek arayın..." : "Search for food...";
             
-            // Garson ve geri dön butonları
-            document.querySelector('.btn-waiter').innerHTML = lang === 'tr' ? '<i class="fa-solid fa-bell"></i> Garson Çağır' : '<i class="fa-solid fa-bell"></i> Call Waiter';
+            // Geri dön butonu
             document.querySelector('.back-link').innerHTML = lang === 'tr' ? '<i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön' : '<i class="fa-solid fa-arrow-left"></i> Back to Home';
-            document.getElementById('toastMessage').textContent = lang === 'tr' ? 'Masaya servis personeli çağrıldı!' : 'Service staff called to the table!';
 
             // Yeniden render
             renderCategories();
@@ -846,19 +794,6 @@
                 document.getElementById('productModal').classList.remove('active');
                 document.body.style.overflow = '';
             }
-        }
-
-        // --- 7. GARSON ÇAĞIRMA (TOAST) ---
-        function callWaiter() {
-            const toast = document.getElementById('toastMessage');
-            toast.classList.add('show');
-            
-            // İleride WhatsApp API bağlantısı buraya eklenebilir
-            // window.open(`https://wa.me/905439011351?text=Masa 5 için servis rica ediyorum.`, '_blank');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
         }
 
         // --- BAŞLAT ---

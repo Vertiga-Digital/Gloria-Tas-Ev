@@ -529,16 +529,43 @@
             background-color: var(--color-cream-bg);
         }
 
+        #galeri {
+            position: relative;
+        }
+
+        #galeri::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 100%;
+            background: linear-gradient(to left, var(--color-cream-bg) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
             gap: 1rem;
+            padding: 0 1.5rem 1rem;
+            scrollbar-width: none;
+        }
+
+        .gallery-grid::-webkit-scrollbar {
+            display: none;
         }
 
         .gallery-item {
-            height: 250px;
+            flex: 0 0 auto;
+            width: 75vw;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            scroll-snap-align: center;
             background-color: #dcd0c0;
-            border-radius: 8px;
+            border-radius: 16px;
             overflow: hidden;
             cursor: pointer;
             position: relative;
@@ -549,6 +576,22 @@
             font-size: 2rem;
             background-size: cover;
             background-position: center;
+        }
+
+        .gallery-hint {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-item {
+                max-width: 320px;
+            }
+            .gallery-hint {
+                display: none;
+            }
         }
 
         /* Hover Overlay */

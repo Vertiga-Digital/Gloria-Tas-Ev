@@ -592,6 +592,23 @@
             .gallery-hint {
                 display: none;
             }
+            /* Masaüstünde zarif bir kaydırma çubuğu (scrollbar) göster */
+            .gallery-grid {
+                scrollbar-width: thin;
+                scrollbar-color: var(--color-warm-amber) transparent;
+                padding-bottom: 1.5rem; /* Scrollbar için yer aç */
+            }
+            .gallery-grid::-webkit-scrollbar {
+                display: block;
+                height: 8px;
+            }
+            .gallery-grid::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .gallery-grid::-webkit-scrollbar-thumb {
+                background-color: var(--color-warm-amber);
+                border-radius: 10px;
+            }
         }
 
         /* Hover Overlay */

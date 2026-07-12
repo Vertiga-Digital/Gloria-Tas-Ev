@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gloria Taş Ev - Modern Menü</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           CSS DEĞİŞKENLERİ & TEMEL AYARLAR
+           ========================================================================== */
+        :root {
+            --color-dark-brown: #3B2A20;
+            --color-warm-amber: #C97B3D;
+            --color-cream: #F5EDE2;
+            --color-dark-green: #4A5D3A;
+            --color-bg: #1A120E; /* Mağara karanlığı */
+            
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --glass-bg: rgba(245, 237, 226, 0.08);
+            --glass-border: rgba(245, 237, 226, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-cream);
+            line-height: 1.5;
+            padding-bottom: 80px; /* Alt boşluk */
+        }
+
+        /* Arkaplan dokusu için ince gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(201, 123, 61, 0.15), transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           HEADER & STICKY ELEMENTLER
+           ========================================================================== */
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(26, 18, 14, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-warm-amber);
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            padding: 0.3rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .lang-switch button {
+            background: transparent;
+            border: none;
+            color: rgba(245, 237, 226, 0.5);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-switch button.active {
+            background: var(--color-warm-amber);
+            color: #fff;
+        }
+
+        /* Arama Kutusu */
+        .search-container {
+            padding: 0 1.5rem 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(245, 237, 226, 0.5);
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            color: var(--color-cream);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--color-warm-amber);
+            background: rgba(245, 237, 226, 0.12);
+        }
+
+        .search-input::placeholder {
+            color: rgba(245, 237, 226, 0.4);
+        }
+
+        /* Kategori Sekmeleri (Chips) */
+        .categories-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.8rem;
+            padding: 0 1.5rem 1rem;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .categories-nav::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .category-chip {
+            white-space: nowrap;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--color-cream);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-chip.active {
+            background: var(--color-warm-amber);
+            border-color: var(--color-warm-amber);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(201, 123, 61, 0.3);
+        }
+
+        /* ==========================================================================
+           MENÜ İÇERİĞİ & KARTLAR
+           ========================================================================== */
+        main {
+            padding: 1rem 1.5rem;
+        }
+
+        .menu-section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 180px; /* Sticky header yüksekliği telafisi */
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-warm-amber);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-card {
+            display: flex;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background-color: var(--color-dark-brown);
+        }
+
+        .product-info {
+            padding: 0.8rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--color-cream);
+            line-height: 1.2;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--color-warm-amber);
+            font-size: 1.1rem;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: rgba(245, 237, 226, 0.6);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ==========================================================================
+           MODAL (ÜRÜN DETAYI)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end; /* Mobilde alttan çıkması için */
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-height: 90vh;
+            background: var(--color-bg);
+            border-radius: 24px 24px 0 0;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-drag-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--glass-border);
+            border-radius: 2px;
+            margin: 1rem auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: var(--color-dark-brown);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-warm-amber);
+            line-height: 1.2;
+        }
+
+        .modal-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-cream);
+        }
+
+        .modal-desc {
+            font-size: 1rem;
+            color: rgba(245, 237, 226, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-allergens {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: rgba(245, 237, 226, 0.6);
+        }
+
+        .modal-allergens i {
+            color: var(--color-warm-amber);
+            margin-right: 0.5rem;
+        }
+
+        /* ==========================================================================
+           FOOTER & BUTONLAR
+           ========================================================================== */
+        .bottom-actions {
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .btn-waiter {
+            display: block;
+            width: 100%;
+            background: var(--color-dark-green);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(74, 93, 58, 0.3);
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-waiter:active {
+            transform: scale(0.98);
+        }
+
+        .back-link {
+            color: rgba(245, 237, 226, 0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        /* Toast Mesajı */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--color-warm-amber);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .no-results {
+            text-align: center;
+            color: rgba(245, 237, 226, 0.5);
+            padding: 2rem;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY ÜST ALAN -->
+    <div class="sticky-container">
+        <header>
+            <a href="index.html" class="logo">Gloria Taş Ev</a>
+            <div class="lang-switch">
+                <button class="active" onclick="switchLang('tr')">TR</button>
+                <button onclick="switchLang('en')">EN</button>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Yemek arayın...">
+            </div>
+        </div>
+
+        <nav class="categories-nav" id="categoriesNav">
+            <!-- Kategoriler JS ile buraya yüklenecek -->
+        </nav>
+    </div>
+
+    <!-- MENÜ İÇERİĞİ -->
+    <main id="menuContainer">
+        <!-- JS ile ürünler buraya yüklenecek -->
+        <div id="noResults" class="no-results">
+            <i class="fa-solid fa-utensils" style="font-size: 2rem; margin-bottom: 1rem; display: block; opacity: 0.5;"></i>
+            Aradığınız ürün bulunamadı.
+        </div>
+    </main>
+
+    <!-- ALT AKSİYONLAR -->
+    <div class="bottom-actions">
+        <button class="btn-waiter" onclick="callWaiter()">
+            <i class="fa-solid fa-bell"></i> Garson Çağır
+        </button>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön</a>
+    </div>
+
+    <!-- ÜRÜN DETAY MODALI -->
+    <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-drag-handle"></div>
+            <button class="close-btn" onclick="closeModal(true)"><i class="fa-solid fa-xmark"></i></button>
+            <img src="" alt="" class="modal-img" id="modalImg" loading="lazy">
+            <div class="modal-body">
+                <div class="modal-title-row">
+                    <h2 class="modal-title" id="modalTitle">Ürün Adı</h2>
+                    <span class="modal-price" id="modalPrice">₺0</span>
+                </div>
+                <p class="modal-desc" id="modalDesc">Detaylı açıklama buraya gelecek.</p>
+                <div class="modal-allergens" id="modalAllergens">
+                    <i class="fa-solid fa-circle-exclamation"></i> <span>Alerjen notu bulunmuyor.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST BİLDİRİMİ -->
+    <div class="toast" id="toastMessage">Masaya servis personeli çağrıldı!</div>
+
+
+    <!-- ==========================================================================
+         JAVASCRIPT
+         ========================================================================== -->
+    <script>
+        // --- 1. MENÜ VERİ YAPISI ---
+        // Bu veriyi sonradan veritabanından çekilecek veya kolayca değiştirilecek şekilde ayarlıyoruz.
+        const menuData = [
+            {
+                id: "starters",
+                title_tr: "Başlangıçlar",
+                title_en: "Starters",
+                items: [
+                    {
+                        name_tr: "Günün Çorbası", name_en: "Soup of the Day",
+                        price: "₺180",
+                        desc_tr: "Taş fırında yavaş pişmiş, yöresel baharatlarla tatlandırılmış taze çorba.",
+                        desc_en: "Slow-cooked in a stone oven, fresh soup flavored with local spices.",
+                        img: "images/gallery-mock.png",
+                        allergens_tr: "Gluten ve süt ürünleri içerebilir.", allergens_en: "May contain gluten and dairy."
+                    },
+                    {
+                        name_tr: "Humus Pastırmalı", name_en: "Hummus with Pastrami",
+                        price: "₺280",
+                        desc_tr: "Kayseri pastırması ve sıcak tereyağı ile servis edilen enfes humus.",
+                        desc_en: "Delicious hummus served with Kayseri pastrami and hot butter.",
+                        img: "images/gallery-mock.png",
+                        allergens_tr: "Susam (tahin) içerir.", allergens_en: "Contains sesame (tahini)."
+                    }
+                ]
+            },
+            {
+                id: "mains",
+                title_tr: "Ana Yemekler",
+                title_en: "Main Courses",
+                items: [
+                    {
+                        name_tr: "Meşhur Testi Kebabı", name_en: "Famous Pottery Kebab",
+                        price: "₺850",
+                        desc_tr: "Kapadokya'nın geleneksel toprak testisinde, ağır ateşte saatlerce pişmiş kuzu eti, arpacık soğan ve domates.",
+                        desc_en: "Lamb cooked slowly for hours with shallots and tomatoes in a traditional Cappadocia clay pot.",
+                        img: "images/testi-kebabi.png",
+                        allergens_tr: "Alerjen içermez.", allergens_en: "No allergens."
+                    },
+                    {
+                        name_tr: "Saç Kavurma", name_en: "Sauteed Meat",
+                        price: "₺750",
+                        desc_tr: "Özel saçta pişirilmiş ince doğranmış dana eti, köy biberi ve taze domates.",
+                        desc_en: "Finely chopped beef cooked on a special iron plate with local peppers and tomatoes.",
+                        img: "images/gallery-mock.png",
+                        allergens_tr: "Alerjen içermez.", allergens_en: "No allergens."
+                    }
+                ]
+            },
+            {
+                id: "pides",
+                title_tr: "Odun Ateşinde Pideler",
+                title_en: "Wood-Fired Pitas",
+                items: [
+                    {
+                        name_tr: "Kavurmalı Kaşarlı Pide", name_en: "Roasted Meat & Cheese Pita",
+                        price: "₺420",
+                        desc_tr: "Taş fırından taze çıkmış, bol malzemeli efsanevi lezzet.",
+                        desc_en: "Fresh from the stone oven, legendary flavor with plenty of ingredients.",
+                        img: "images/pide.png",
+                        allergens_tr: "Gluten ve süt ürünleri içerir.", allergens_en: "Contains gluten and dairy."
+                    },
+                    {
+                        name_tr: "Kuşbaşılı Pide", name_en: "Diced Meat Pita",
+                        price: "₺450",
+                        desc_tr: "Özel marine edilmiş kuşbaşı dana eti ve incecik hamur.",
+                        desc_en: "Specially marinated diced beef on thin dough.",
+                        img: "images/gallery-mock.png",
+                        allergens_tr: "Gluten içerir.", allergens_en: "Contains gluten."
+                    }
+                ]
+            },
+            {
+                id: "drinks",
+                title_tr: "İçecekler",
+                title_en: "Beverages",
+                items: [
+                    {
+                        name_tr: "Ev Yapımı Ayran", name_en: "Homemade Ayran",
+                        price: "₺90",
+                        desc_tr: "Bol köpüklü, doğal köy yoğurdundan.",
+                        desc_en: "Frothy, made from natural village yogurt.",
+                        img: "images/gallery-mock.png",
+                        allergens_tr: "Süt ürünü içerir.", allergens_en: "Contains dairy."
+                    },
+                    {
+                        name_tr: "Taze Sıkım Portakal", name_en: "Fresh Orange Juice",
+                        price: "₺150",
+                        desc_tr: "Günlük sıkılmış 100% portakal suyu.",
+                        desc_en: "Daily squeezed 100% orange juice.",
+                        img: "images/gallery-mock.png",
+                        allergens_tr: "Alerjen içermez.", allergens_en: "No allergens."
+                    }
+                ]
+            }
+        ];
+
+        let currentLang = 'tr';
+        let observer;
+
+        // --- 2. RENDER İŞLEMLERİ ---
+        function initMenu() {
+            renderCategories();
+            renderMenuItems();
+            setupSearch();
+            setupIntersectionObserver();
+        }
+
+        function renderCategories() {
+            const nav = document.getElementById('categoriesNav');
+            nav.innerHTML = '';
+            
+            menuData.forEach((cat, index) => {
+                const btn = document.createElement('button');
+                btn.className = `category-chip ${index === 0 ? 'active' : ''}`;
+                btn.dataset.target = cat.id;
+                btn.textContent = currentLang === 'tr' ? cat.title_tr : cat.title_en;
+                
+                btn.onclick = () => {
+                    document.getElementById(`section-${cat.id}`).scrollIntoView({ behavior: 'smooth' });
+                };
+                
+                nav.appendChild(btn);
+            });
+        }
+
+        function renderMenuItems() {
+            const container = document.getElementById('menuContainer');
+            // No result div'i silmemek için saklıyoruz
+            const noResultsNode = document.getElementById('noResults');
+            container.innerHTML = '';
+            container.appendChild(noResultsNode);
+
+            menuData.forEach(cat => {
+                const section = document.createElement('div');
+                section.className = 'menu-section';
+                section.id = `section-${cat.id}`;
+
+                const title = document.createElement('h2');
+                title.className = 'section-title';
+                title.textContent = currentLang === 'tr' ? cat.title_tr : cat.title_en;
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'menu-grid';
+
+                cat.items.forEach(item => {
+                    const name = currentLang === 'tr' ? item.name_tr : item.name_en;
+                    const desc = currentLang === 'tr' ? item.desc_tr : item.desc_en;
+                    const allergens = currentLang === 'tr' ? item.allergens_tr : item.allergens_en;
+
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    // Modal açılış verisini bağlıyoruz
+                    card.onclick = () => openModal(item);
+
+                    card.innerHTML = `
+                        <img src="${item.img}" alt="${name}" class="product-img" loading="lazy">
+                        <div class="product-info">
+                            <div class="product-header">
+                                <h3 class="product-title">${name}</h3>
+                                <span class="product-price">${item.price}</span>
+                            </div>
+                            <p class="product-desc">${desc}</p>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+
+                section.appendChild(grid);
+                container.insertBefore(section, noResultsNode);
+            });
+            
+            // Render sonrası observer'ı tekrar bağlıyoruz
+            setupIntersectionObserver();
+        }
+
+        // --- 3. DİL DEĞİŞTİRME ---
+        function switchLang(lang) {
+            currentLang = lang;
+            
+            // Buton aktiflik durumu
+            document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Placeholder güncelleme
+            document.getElementById('searchInput').placeholder = lang === 'tr' ? "Yemek arayın..." : "Search for food...";
+            
+            // Garson ve geri dön butonları
+            document.querySelector('.btn-waiter').innerHTML = lang === 'tr' ? '<i class="fa-solid fa-bell"></i> Garson Çağır' : '<i class="fa-solid fa-bell"></i> Call Waiter';
+            document.querySelector('.back-link').innerHTML = lang === 'tr' ? '<i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön' : '<i class="fa-solid fa-arrow-left"></i> Back to Home';
+            document.getElementById('toastMessage').textContent = lang === 'tr' ? 'Masaya servis personeli çağrıldı!' : 'Service staff called to the table!';
+
+            // Yeniden render
+            renderCategories();
+            renderMenuItems();
+            
+            // Eğer arama kutusu doluysa tekrar filtrele
+            const searchInput = document.getElementById('searchInput').value;
+            if(searchInput) {
+                document.getElementById('searchInput').dispatchEvent(new Event('input'));
+            }
+        }
+
+        // --- 4. ARAMA & FİLTRELEME ---
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                const sections = document.querySelectorAll('.menu-section');
+                let totalVisible = 0;
+
+                sections.forEach(section => {
+                    const cards = section.querySelectorAll('.product-card');
+                    let sectionVisibleCount = 0;
+
+                    cards.forEach(card => {
+                        const title = card.querySelector('.product-title').textContent.toLowerCase();
+                        const desc = card.querySelector('.product-desc').textContent.toLowerCase();
+                        
+                        if (title.includes(query) || desc.includes(query)) {
+                            card.style.display = 'flex';
+                            sectionVisibleCount++;
+                            totalVisible++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Eğer o kategoride hiç sonuç yoksa kategorinin başlığını da gizle
+                    section.style.display = sectionVisibleCount > 0 ? 'block' : 'none';
+                });
+
+                // Hiçbir sonuç bulunamadı uyarısı
+                document.getElementById('noResults').style.display = (totalVisible === 0 && query !== '') ? 'block' : 'none';
+            });
+        }
+
+        // --- 5. SCROLL (KATEGORİ İZLEME) ---
+        function setupIntersectionObserver() {
+            if (observer) observer.disconnect();
+
+            const options = {
+                root: null,
+                rootMargin: '-180px 0px -50% 0px', // Sticky header'ın altına göre hesapla
+                threshold: 0
+            };
+
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id.replace('section-', '');
+                        updateActiveChip(id);
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.menu-section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        function updateActiveChip(id) {
+            document.querySelectorAll('.category-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.target === id) {
+                    chip.classList.add('active');
+                    // Tıklanan chip'i görünür alana kaydır
+                    chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
+        }
+
+        // --- 6. MODAL KONTROLLERİ ---
+        function openModal(item) {
+            const name = currentLang === 'tr' ? item.name_tr : item.name_en;
+            const desc = currentLang === 'tr' ? item.desc_tr : item.desc_en;
+            const allergens = currentLang === 'tr' ? item.allergens_tr : item.allergens_en;
+
+            document.getElementById('modalImg').src = item.img;
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalPrice').textContent = item.price;
+            document.getElementById('modalDesc').textContent = desc;
+            document.querySelector('#modalAllergens span').textContent = allergens;
+
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Arka plan kaymasını engelle
+        }
+
+        function closeModal(force = false) {
+            // Sadece overlay'e (koyu arka plana) veya X butonuna tıklanırsa kapat
+            if (force === true || event.target.id === 'productModal') {
+                document.getElementById('productModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // --- 7. GARSON ÇAĞIRMA (TOAST) ---
+        function callWaiter() {
+            const toast = document.getElementById('toastMessage');
+            toast.classList.add('show');
+            
+            // İleride WhatsApp API bağlantısı buraya eklenebilir
+            // window.open(`https://wa.me/905439011351?text=Masa 5 için servis rica ediyorum.`, '_blank');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- BAŞLAT ---
+        document.addEventListener('DOMContentLoaded', initMenu);
+
+    </script>
+</body>
+</html>

@@ -228,13 +228,17 @@
             <h2 class="section-title">Mekanımızdan Kareler</h2>
             <p class="gallery-hint">Kaydırarak daha fazla fotoğraf görün &rarr;</p>
             
-            <div class="gallery-grid">
+            <div class="gallery-wrapper">
+                <button class="gallery-nav-btn prev" onclick="scrollGallery(-1)" aria-label="Önceki Fotoğraf"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="gallery-nav-btn next" onclick="scrollGallery(1)" aria-label="Sonraki Fotoğraf"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="gallery-grid">
                 <div class="gallery-item" data-src="images/gallery-mock.png" style="background-image: url('images/gallery-mock.png'); background-size: cover; background-position: center;"><div style="width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass-plus" style="color: white; opacity: 0.8;"></i></div></div>
                 <div class="gallery-item" data-src="images/gallery-mock.png" style="background-image: url('images/gallery-mock.png'); background-size: cover; background-position: center;"><div style="width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass-plus" style="color: white; opacity: 0.8;"></i></div></div>
                 <div class="gallery-item" data-src="images/gallery-mock.png" style="background-image: url('images/gallery-mock.png'); background-size: cover; background-position: center;"><div style="width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass-plus" style="color: white; opacity: 0.8;"></i></div></div>
                 <div class="gallery-item" data-src="images/gallery-mock.png" style="background-image: url('images/gallery-mock.png'); background-size: cover; background-position: center;"><div style="width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass-plus" style="color: white; opacity: 0.8;"></i></div></div>
                 <div class="gallery-item" data-src="images/gallery-mock.png" style="background-image: url('images/gallery-mock.png'); background-size: cover; background-position: center;"><div style="width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass-plus" style="color: white; opacity: 0.8;"></i></div></div>
                 <div class="gallery-item" data-src="images/gallery-mock.png" style="background-image: url('images/gallery-mock.png'); background-size: cover; background-position: center;"><div style="width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass-plus" style="color: white; opacity: 0.8;"></i></div></div>
+            </div>
             </div>
         </div>
     </section>

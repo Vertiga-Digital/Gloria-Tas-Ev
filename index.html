@@ -74,6 +74,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="favicon.png" alt="Gloria Taş Ev Logo" class="preloader-logo">
+    </div>
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var p = document.getElementById('preloader');
+                if(p) {
+                    p.classList.add('fade-out');
+                    setTimeout(function() { p.style.display = 'none'; }, 600);
+                }
+            }, 300);
+        });
+    </script>
 
     <!-- ==========================================================================
          NAVIGATION

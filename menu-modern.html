@@ -288,6 +288,7 @@
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
+            cursor: pointer; /* iOS tıklama sorunu için */
         }
 
         .modal-overlay.active {
@@ -316,13 +317,14 @@
             top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 40px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.4);
+            width: 50px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
-            border-radius: 3px;
+            border-radius: 4px;
             z-index: 10;
+            cursor: pointer; /* Tıklanabilir algısı */
         }
 
         .close-btn {
@@ -520,8 +522,8 @@
 
     <!-- ÜRÜN DETAY MODALI -->
     <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-drag-handle"></div>
+        <div class="modal-content" onclick="event.stopPropagation()" id="modalContent">
+            <div class="modal-drag-handle" onclick="closeModal(true)"></div>
             <button class="close-btn" onclick="closeModal(true)"><i class="fa-solid fa-xmark"></i></button>
             <div class="modal-img-container">
                 <div class="modal-img-placeholder" id="modalImgPlaceholder">
@@ -854,11 +856,33 @@
         }
 
         function closeModal(force = false) {
-            // Sadece overlay'e (koyu arka plana) veya X butonuna tıklanırsa kapat
+            // Sadece overlay'e (koyu arka plana) veya X/Sürükle çubuğuna tıklanırsa kapat
             if (force === true || event.target.id === 'productModal') {
                 document.getElementById('productModal').classList.remove('active');
                 document.body.style.overflow = '';
                 document.body.style.touchAction = '';
+            }
+        }
+
+        // --- 7. KAYDIRARAK KAPATMA (SWIPE-TO-CLOSE) ---
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const modalContent = document.getElementById('modalContent');
+
+        modalContent.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        modalContent.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const scrollTop = modalContent.scrollTop;
+            // İçerik en üstteyse ve belirgin bir şekilde (80px'den fazla) aşağı kaydırıldıysa kapat
+            if (touchEndY - touchStartY > 80 && scrollTop <= 0) {
+                closeModal(true);
             }
         }
 

@@ -504,6 +504,14 @@
     <script>
         function openMenuChoice() { document.getElementById('menuChoiceModal').classList.add('active'); }
         function closeMenuChoice() { document.getElementById('menuChoiceModal').classList.remove('active'); }
+        
+        function scrollGallery(direction) {
+            const gallery = document.querySelector('.gallery-grid');
+            if (gallery) {
+                const scrollAmount = window.innerWidth < 768 ? 250 : 340;
+                gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            }
+        }
     </script>
 
 </body>

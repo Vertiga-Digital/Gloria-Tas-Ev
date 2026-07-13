@@ -341,18 +341,22 @@
         }
 
         .service-options {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
         }
 
         .service-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             gap: 0.8rem;
-            width: 160px;
+            width: 100%;
+            min-width: 0;
         }
 
         .service-icon {
@@ -998,16 +1002,14 @@
             .btn { width: 100%; }
             
             .service-options { 
-                flex-direction: row; 
-                gap: 1rem; 
-                justify-content: center;
-                align-items: flex-start;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+                max-width: 100%;
             }
             
             .service-item {
-                width: auto;
-                flex: 0 1 auto;
-                max-width: 110px;
+                width: 100%;
+                max-width: none;
             }
             
             .service-icon {

@@ -809,8 +809,7 @@
         .review-stars {
             color: #FFD700;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
+            font-size: 0.9rem;
             white-space: nowrap;
         }
 

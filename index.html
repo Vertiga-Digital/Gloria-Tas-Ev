@@ -436,31 +436,52 @@
             const lightbox = document.getElementById('lightbox');
             const lightboxClose = document.getElementById('lightbox-close');
             const imgContainer = document.getElementById('lightbox-img-container');
+            const lightboxContent = lightbox.querySelector('.lightbox-content');
             
             galleryItems.forEach(item => {
                 item.addEventListener('click', () => {
                     const imgSrc = item.getAttribute('data-src');
                     imgContainer.innerHTML = `<img src="${imgSrc}" style="max-width: 90vw; max-height: 90vh; border-radius: 8px;" alt="Galeri Görseli">`;
-                    lightbox.classList.add('active');
+
+                    // Tıklanan fotoğrafın ekrandaki konumunu al
+                    const rect = item.getBoundingClientRect();
+                    const originX = rect.left + rect.width / 2;
+                    const originY = rect.top + rect.height / 2;
+
+                    // Animasyonu tıklanan noktadan başlat
+                    lightboxContent.style.transformOrigin = `${originX}px ${originY}px`;
+
+                    // Önce göster (opacity 0 + scale 0.05)
+                    lightbox.style.display = 'flex';
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            lightbox.classList.add('active');
+                        });
+                    });
                 });
             });
 
-            // Lightbox kapatma butonuna tıklama
-            lightboxClose.addEventListener('click', () => {
+            function closeLightbox() {
                 lightbox.classList.remove('active');
-            });
+                lightboxContent.addEventListener('transitionend', () => {
+                    // Kapatma sonrası içeriği temizle
+                }, { once: true });
+            }
+
+            // Lightbox kapatma butonuna tıklama
+            lightboxClose.addEventListener('click', closeLightbox);
 
             // Lightbox dışına (arka plana) tıklama
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox || e.target === imgContainer) {
-                    lightbox.classList.remove('active');
+                    closeLightbox();
                 }
             });
 
             // ESC tuşu ile lightbox kapatma
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                    lightbox.classList.remove('active');
+                    closeLightbox();
                 }
             });
 

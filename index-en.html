@@ -443,15 +443,12 @@
                     const imgSrc = item.getAttribute('data-src');
                     imgContainer.innerHTML = `<img src="${imgSrc}" style="max-width: 90vw; max-height: 90vh; border-radius: 8px;" alt="Gallery Image">`;
 
-                    // Get clicked item's screen position
                     const rect = item.getBoundingClientRect();
                     const originX = rect.left + rect.width / 2;
                     const originY = rect.top + rect.height / 2;
-
-                    // Start animation from clicked point
                     lightboxContent.style.transformOrigin = `${originX}px ${originY}px`;
 
-                    lightbox.style.display = 'flex';
+                    lightbox.classList.add('is-open');
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             lightbox.classList.add('active');
@@ -462,7 +459,8 @@
 
             function closeLightbox() {
                 lightbox.classList.remove('active');
-                lightboxContent.addEventListener('transitionend', () => {
+                lightbox.addEventListener('transitionend', () => {
+                    lightbox.classList.remove('is-open');
                 }, { once: true });
             }
 

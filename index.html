@@ -447,12 +447,10 @@
                     const rect = item.getBoundingClientRect();
                     const originX = rect.left + rect.width / 2;
                     const originY = rect.top + rect.height / 2;
-
-                    // Animasyonu tıklanan noktadan başlat
                     lightboxContent.style.transformOrigin = `${originX}px ${originY}px`;
 
-                    // Önce göster (opacity 0 + scale 0.05)
-                    lightbox.style.display = 'flex';
+                    // Önce display:flex yap, sonra animasyonu tetikle
+                    lightbox.classList.add('is-open');
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             lightbox.classList.add('active');
@@ -463,8 +461,9 @@
 
             function closeLightbox() {
                 lightbox.classList.remove('active');
-                lightboxContent.addEventListener('transitionend', () => {
-                    // Kapatma sonrası içeriği temizle
+                // Opacity animasyonu bitince display:none'a dön
+                lightbox.addEventListener('transitionend', () => {
+                    lightbox.classList.remove('is-open');
                 }, { once: true });
             }
 

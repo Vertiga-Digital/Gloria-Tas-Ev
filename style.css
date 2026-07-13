@@ -705,18 +705,20 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.92);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             opacity: 0;
-            pointer-events: none;
             transition: opacity 0.35s ease;
+        }
+
+        .lightbox.is-open {
+            display: flex;
         }
 
         .lightbox.active {
             opacity: 1;
-            pointer-events: auto;
         }
 
         .lightbox-content {

@@ -352,6 +352,7 @@
             flex-direction: column;
             align-items: center;
             gap: 0.8rem;
+            width: 160px;
         }
 
         .service-icon {
@@ -378,6 +379,7 @@
             color: var(--color-dark-brown);
             text-align: center;
             word-break: break-word;
+            font-size: 0.95rem;
         }
 
         /* ==========================================================================
@@ -1003,9 +1005,9 @@
             }
             
             .service-item {
-                flex: 1;
-                flex-basis: 0;
-                min-width: 0;
+                width: auto;
+                flex: 0 1 auto;
+                max-width: 110px;
             }
             
             .service-icon {

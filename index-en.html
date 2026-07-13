@@ -71,7 +71,7 @@
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
     <!-- Preloader -->
@@ -507,10 +507,14 @@
         
         function scrollGallery(direction) {
             const gallery = document.querySelector('.gallery-grid');
-            if (gallery) {
-                const scrollAmount = window.innerWidth < 768 ? 250 : 340;
-                gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-            }
+            if (!gallery) return;
+
+            const scrollAmount = window.innerWidth < 768 ? 250 : 340;
+            gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+
+            const refreshNav = () => updateGalleryNavButtons();
+            gallery.addEventListener('scrollend', refreshNav, { once: true });
+            setTimeout(refreshNav, 500);
         }
 
         function updateGalleryNavButtons() {
@@ -525,22 +529,25 @@
                 return;
             }
 
-            const maxScroll = gallery.scrollWidth - gallery.clientWidth;
-            const atStart = gallery.scrollLeft <= 5;
-            const atEnd = gallery.scrollLeft >= maxScroll - 5;
+            prevBtn.classList.remove('is-hidden');
+            nextBtn.classList.remove('is-hidden');
 
-            prevBtn.classList.toggle('is-hidden', atStart);
-            nextBtn.classList.toggle('is-hidden', atEnd || maxScroll <= 0);
+            const maxScroll = Math.max(0, gallery.scrollWidth - gallery.clientWidth);
+            const atStart = gallery.scrollLeft <= 8;
+            const atEnd = gallery.scrollLeft >= maxScroll - 8;
+
+            if (atStart) prevBtn.classList.add('is-hidden');
+            if (atEnd || maxScroll <= 0) nextBtn.classList.add('is-hidden');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        (function initGalleryNav() {
             const gallery = document.querySelector('.gallery-grid');
             if (!gallery) return;
 
             gallery.addEventListener('scroll', updateGalleryNavButtons, { passive: true });
             window.addEventListener('resize', updateGalleryNavButtons);
             updateGalleryNavButtons();
-        });
+        })();
     </script>
 
 </body>

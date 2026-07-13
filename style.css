@@ -611,6 +611,17 @@
         }
 
         @media (min-width: 768px) {
+            #galeri .container {
+                overflow: visible;
+            }
+
+            .gallery-wrapper {
+                display: grid;
+                grid-template-columns: 56px minmax(0, 1fr) 56px;
+                align-items: center;
+                column-gap: 0.75rem;
+            }
+
             .gallery-item {
                 max-width: 320px;
             }
@@ -619,9 +630,7 @@
             }
             .gallery-nav-btn {
                 display: flex;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
+                position: static;
                 width: 44px;
                 height: 44px;
                 background: rgba(26, 18, 14, 0.8);
@@ -633,28 +642,31 @@
                 cursor: pointer;
                 z-index: 10;
                 font-size: 1.2rem;
-                transition: opacity 0.25s ease, visibility 0.25s ease, background 0.3s ease, transform 0.3s ease;
+                transition: opacity 0.2s ease, background 0.3s ease, transform 0.3s ease;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+                justify-self: center;
             }
             .gallery-nav-btn.is-hidden {
-                opacity: 0;
-                visibility: hidden;
-                pointer-events: none;
+                display: none !important;
             }
             .gallery-nav-btn:hover {
                 background: var(--color-warm-amber);
-                transform: translateY(-50%) scale(1.1);
+                transform: scale(1.1);
             }
             .gallery-nav-btn.prev {
-                left: -22px;
+                grid-column: 1;
+                grid-row: 1;
             }
             .gallery-nav-btn.next {
-                right: -22px;
+                grid-column: 3;
+                grid-row: 1;
             }
             /* Masaüstünde scrollbar iptal, sadece butonlar */
             .gallery-grid {
+                grid-column: 2;
+                grid-row: 1;
                 scrollbar-width: none;
-                padding-bottom: 0;
+                padding: 0 0 0;
             }
             .gallery-grid::-webkit-scrollbar {
                 display: none;

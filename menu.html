@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yönlendiriliyor | Gloria Taş Ev</title>
     <!-- Yönlendirme Metası -->
-    <meta http-equiv="refresh" content="0; url=menu-modern.html">
+    <meta http-equiv="refresh" content="0; url=menu-modern.html?src=qr">
     <style>
         body {
             background-color: #3B2A20; /* Koyu Kahve */
@@ -40,13 +40,13 @@
     <div class="message">Menüye yönlendiriliyorsunuz...</div>
     <div style="font-size: 0.9rem; opacity: 0.8;">
         Eğer otomatik yönlendirme gerçekleşmezse <br><br>
-        <a href="menu-modern.html" class="redirect-link">Lütfen buraya tıklayın</a>
+        <a href="menu-modern.html?src=qr" class="redirect-link">Lütfen buraya tıklayın</a>
     </div>
 
     <script>
         // JS ile ek güvence
         setTimeout(function() {
-            window.location.replace("menu-modern.html");
+            window.location.replace("menu-modern.html?src=qr");
         }, 200);
     </script>
 </body>

@@ -701,7 +701,13 @@
             event.target.classList.add('active');
             
             // Geri dön butonu
-            document.querySelector('.back-link').innerHTML = lang === 'tr' ? '<i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön' : '<i class="fa-solid fa-arrow-left"></i> Back to Home';
+            document.querySelector('.back-link').innerHTML = lang === 'tr'
+                ? (new URLSearchParams(window.location.search).get('src') === 'qr'
+                    ? '<i class="fa-solid fa-globe"></i> Web Sitemizi Ziyaret Edin'
+                    : '<i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön')
+                : (new URLSearchParams(window.location.search).get('src') === 'qr'
+                    ? '<i class="fa-solid fa-globe"></i> Visit Our Website'
+                    : '<i class="fa-solid fa-arrow-left"></i> Back to Home');
 
             // Yeniden render
             renderCategories();
@@ -809,7 +815,20 @@
         }
 
         // --- BAŞLAT ---
-        document.addEventListener('DOMContentLoaded', initMenu);
+        document.addEventListener('DOMContentLoaded', () => {
+            initMenu();
+
+            // QR kaynağı kontrolü
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFromQR = urlParams.get('src') === 'qr';
+            if (isFromQR) {
+                const backLink = document.querySelector('.back-link');
+                if (backLink) {
+                    backLink.innerHTML = '<i class="fa-solid fa-globe"></i> Web Sitemizi Ziyaret Edin';
+                    backLink.href = 'index.html';
+                }
+            }
+        });
 
     </script>
 </body>

@@ -113,45 +113,6 @@
             color: #fff;
         }
 
-        /* Arama Kutusu */
-        .search-container {
-            padding: 0 1.5rem 1rem;
-        }
-
-        .search-box {
-            position: relative;
-            width: 100%;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(245, 237, 226, 0.5);
-        }
-
-        .search-input {
-            width: 100%;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            color: var(--color-cream);
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            border-color: var(--color-warm-amber);
-            background: rgba(245, 237, 226, 0.12);
-        }
-
-        .search-input::placeholder {
-            color: rgba(245, 237, 226, 0.4);
-        }
 
         /* Kategori Sekmeleri (Chips) */
         .categories-nav {
@@ -509,12 +470,6 @@
             </div>
         </header>
 
-        <div class="search-container">
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Yemek arayın...">
-            </div>
-        </div>
 
         <nav class="categories-nav" id="categoriesNav">
             <!-- Kategoriler JS ile buraya yüklenecek -->
@@ -524,10 +479,6 @@
     <!-- MENÜ İÇERİĞİ -->
     <main id="menuContainer">
         <!-- JS ile ürünler buraya yüklenecek -->
-        <div id="noResults" class="no-results">
-            <i class="fa-solid fa-utensils" style="font-size: 2rem; margin-bottom: 1rem; display: block; opacity: 0.5;"></i>
-            Aradığınız ürün bulunamadı.
-        </div>
     </main>
 
     <!-- ALT AKSİYONLAR -->
@@ -668,7 +619,6 @@
         function initMenu() {
             renderCategories();
             renderMenuItems();
-            setupSearch();
             setupIntersectionObserver();
         }
 
@@ -750,57 +700,14 @@
             document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Placeholder güncelleme
-            document.getElementById('searchInput').placeholder = lang === 'tr' ? "Yemek arayın..." : "Search for food...";
-            
             // Geri dön butonu
             document.querySelector('.back-link').innerHTML = lang === 'tr' ? '<i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön' : '<i class="fa-solid fa-arrow-left"></i> Back to Home';
 
             // Yeniden render
             renderCategories();
             renderMenuItems();
-            
-            // Eğer arama kutusu doluysa tekrar filtrele
-            const searchInput = document.getElementById('searchInput').value;
-            if(searchInput) {
-                document.getElementById('searchInput').dispatchEvent(new Event('input'));
-            }
         }
 
-        // --- 4. ARAMA & FİLTRELEME ---
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
-                const sections = document.querySelectorAll('.menu-section');
-                let totalVisible = 0;
-
-                sections.forEach(section => {
-                    const cards = section.querySelectorAll('.product-card');
-                    let sectionVisibleCount = 0;
-
-                    cards.forEach(card => {
-                        const title = card.querySelector('.product-title').textContent.toLowerCase();
-                        const desc = card.querySelector('.product-desc').textContent.toLowerCase();
-                        
-                        if (title.includes(query) || desc.includes(query)) {
-                            card.style.display = 'flex';
-                            sectionVisibleCount++;
-                            totalVisible++;
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-
-                    // Eğer o kategoride hiç sonuç yoksa kategorinin başlığını da gizle
-                    section.style.display = sectionVisibleCount > 0 ? 'block' : 'none';
-                });
-
-                // Hiçbir sonuç bulunamadı uyarısı
-                document.getElementById('noResults').style.display = (totalVisible === 0 && query !== '') ? 'block' : 'none';
-            });
-        }
 
         // --- 5. SCROLL (KATEGORİ İZLEME) ---
         function setupIntersectionObserver() {

@@ -642,10 +642,7 @@
 
         function renderMenuItems() {
             const container = document.getElementById('menuContainer');
-            // No result div'i silmemek için saklıyoruz
-            const noResultsNode = document.getElementById('noResults');
             container.innerHTML = '';
-            container.appendChild(noResultsNode);
 
             menuData.forEach(cat => {
                 const section = document.createElement('div');
@@ -685,7 +682,7 @@
                 });
 
                 section.appendChild(grid);
-                container.insertBefore(section, noResultsNode);
+                container.appendChild(section);
             });
             
             // Render sonrası observer'ı tekrar bağlıyoruz

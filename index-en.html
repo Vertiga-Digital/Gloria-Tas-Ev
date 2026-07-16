@@ -426,15 +426,22 @@
                 });
             });
 
-            // 3. Scroll yapıldığında Navbar'a gölge ekleme
+            // 3. Scroll yapıldığında Navbar'a gölge ekleme (optimize edildi)
             const nav = document.querySelector('nav');
+            let _navScrolling = false;
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
-                } else {
-                    nav.style.boxShadow = 'none';
+                if (!_navScrolling) {
+                    window.requestAnimationFrame(() => {
+                        if (window.scrollY > 50) {
+                            nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
+                        } else {
+                            nav.style.boxShadow = 'none';
+                        }
+                        _navScrolling = false;
+                    });
+                    _navScrolling = true;
                 }
-            });
+            }, { passive: true });
 
             // 4. Galeri Lightbox (Vanilla JS)
             const galleryItems = document.querySelectorAll('.gallery-item');
@@ -489,13 +496,20 @@
             // 5. Scroll to Top Button Logic
             const scrollTopBtn = document.getElementById('scrollTopBtn');
             if (scrollTopBtn) {
+                let _topScrolling = false;
                 window.addEventListener('scroll', () => {
-                    if (window.scrollY > 300) {
-                        scrollTopBtn.classList.add('visible');
-                    } else {
-                        scrollTopBtn.classList.remove('visible');
+                    if (!_topScrolling) {
+                        window.requestAnimationFrame(() => {
+                            if (window.scrollY > 300) {
+                                scrollTopBtn.classList.add('visible');
+                            } else {
+                                scrollTopBtn.classList.remove('visible');
+                            }
+                            _topScrolling = false;
+                        });
+                        _topScrolling = true;
                     }
-                });
+                }, { passive: true });
 
                 scrollTopBtn.addEventListener('click', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
